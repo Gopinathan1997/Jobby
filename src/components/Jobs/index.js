@@ -25,6 +25,29 @@ const employmentTypesList = [
   },
 ]
 
+const locationList = [
+  {
+    label: 'Chennai',
+    locationId: 'CHENNAI',
+  },
+  {
+    label: 'Bangalore',
+    locationId: 'BANGALORE',
+  },
+  {
+    label: 'Delhi',
+    locationId: 'DELHI',
+  },
+  {
+    label: 'Mumbai',
+    locationId: 'MUMBAI',
+  },
+  {
+    label: 'Hyderabad',
+    locationId: 'HYDERABAD',
+  },
+]
+
 const salaryRangesList = [
   {
     salaryRangeId: '1000000',
@@ -54,6 +77,7 @@ class Jobs extends Component {
     profileLoading: apiConstantStatus.initial,
     profileData: [],
     salary: '',
+    location: [],
     employmentType: [],
     searchInput: '',
     updateList: false,
@@ -137,7 +161,10 @@ class Jobs extends Component {
   updateEmploymentType = event => {
     const {value, checked} = event.target
     if (checked) {
-      this.setState(prev => ({employmentType: [...prev.employmentType, value]}),this.renderJobsDetails,)
+      this.setState(
+        prev => ({employmentType: [...prev.employmentType, value]}),
+        this.renderJobsDetails,
+      )
     } else {
       const {employmentType} = this.state
       const filteredList = employmentType.filter(each => each !== value)
@@ -148,6 +175,43 @@ class Jobs extends Component {
       )
     }
   }
+
+  updateLocation = event => {
+    const {value, checked} = event.target
+    console.log(value)
+    if (checked) {
+      this.setState(
+        prev => ({location: [...prev.location, value]}),
+        this.renderJobsDetails,
+      )
+    } else {
+      const {location} = this.state
+      const filteredList = location.filter(each => each !== value)
+
+      this.setState(
+        prevState => ({location: filteredList}),
+        this.renderJobsDetails,
+      )
+    }
+  }
+
+  renderTypeOfLocation = () => (
+    <div>
+      <h1>Types of Location</h1>
+      <ul>
+        {locationList.map(eachType => (
+          <li onChange={this.updateLocation} key={eachType.locationId}>
+            <input
+              type="checkbox"
+              value={eachType.locationId}
+              id={eachType.locationId}
+            />
+            <label htmlFor={eachType.locationId}>{eachType.label}</label>
+          </li>
+        ))}
+      </ul>
+    </div>
+  )
 
   renderTypeOfEmployment = () => (
     <div>
@@ -199,9 +263,13 @@ class Jobs extends Component {
 
   renderJobsDetails = async () => {
     this.setState({updateList: false, apiStatus: apiConstantStatus.inProgress})
-    const {salary, employmentType, searchInput} = this.state
+    const {salary, employmentType, searchInput, location} = this.state
+    console.log(location)
     const empInput = employmentType.join(',')
-    const url = `https://apis.ccbp.in/jobs?employment_type=${empInput}&minimum_package=${salary}&search=${searchInput}`
+    const url = `https://apis.ccbp.in/jobs?employment_type=${empInput}&minimum_package=${salary}&location=${location}&search=${searchInput}`
+    console.log(
+      `https://apis.ccbp.in/jobs?employment_type=${empInput}&minimum_package=${salary}&search=${searchInput}`,
+    )
     const jwtToken = Cookies.get('jwt_token')
     const options = {
       headers: {
@@ -247,31 +315,32 @@ class Jobs extends Component {
     return renderJobsList ? (
       <ul className="each-jobs">
         {jobsList.map(eachJobs => (
-          <li key={eachJobs.id} >
-          <Link  to={`/jobs/${eachJobs.id}`}>
-            <div className="title-container">
-              <img
-                src={eachJobs.companyLogoUrl}
-                className="company-logo"
-                alt="company logo"
-              />
-              <div className="columna">
-                <h1>{eachJobs.title}</h1>
-                <p>{eachJobs.rating}</p>
+          <li key={eachJobs.id}>
+            <Link to={`/jobs/${eachJobs.id}`}>
+              <div className="title-container">
+                <img
+                  src={eachJobs.companyLogoUrl}
+                  className="company-logo"
+                  alt="company logo"
+                />
+                <div className="columna">
+                  <h1>{eachJobs.title}</h1>
+                  <p>{eachJobs.rating}</p>
+                </div>
               </div>
-            </div>
-            <div className="rowb">
-              <div className="row">
-                <p>{eachJobs.location}</p>
-                <br />
-                <p>{eachJobs.employmentType}</p>
+              <div className="rowb">
+                <div className="row">
+                  <p>{eachJobs.location}</p>
+                  <br />
+                  <p>{eachJobs.employmentType}</p>
+                </div>
+                <p>{eachJobs.packagePerAnnum}</p>
               </div>
-              <p>{eachJobs.packagePerAnnum}</p>
-            </div>
-            <hr />
-            <h1>Description</h1>
-            <p>{eachJobs.jobDescription}</p>
-          </Link></li>
+              <hr />
+              <h1>Description</h1>
+              <p>{eachJobs.jobDescription}</p>
+            </Link>
+          </li>
         ))}
       </ul>
     ) : (
@@ -338,6 +407,8 @@ class Jobs extends Component {
             {this.renderTypeOfEmployment()}
             <hr />
             {this.renderSalaryRangesList()}
+            <hr />
+            {this.renderTypeOfLocation()}
           </div>
           <div className="content-container">
             <div className="input-container">
