@@ -247,8 +247,8 @@ class Jobs extends Component {
     return renderJobsList ? (
       <ul className="each-jobs">
         {jobsList.map(eachJobs => (
-          <li>
-          <Link key={eachJobs.id} to={`/jobs/${eachJobs.id}`}>
+          <li key={eachJobs.id} >
+          <Link  to={`/jobs/${eachJobs.id}`}>
             <div className="title-container">
               <img
                 src={eachJobs.companyLogoUrl}
