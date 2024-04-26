@@ -1,0 +1,38 @@
+.jobdetail-bg {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  padding: 15px 5vw;
+  
+  background-color: #000;
+  min-height: 100vh;
+}
+.details-container {
+  min-height: 90vh;
+  width: 90vw;
+  border-radius: 30px;
+  background-color: #2c364c;
+  padding-left: 15px;
+  padding-top: 15px;
+}
+.skill {
+  display: flex;
+  list-style-type: none;
+  justify-content: space-between;
+}
+.row {
+  display: flex;
+  align-items: center;
+}
+.life-image {
+  height: 150px;
+}
+
+.simJobs {
+  min-height: 20vh;
+  width: 20vw;
+  border-radius: 13px;
+  background-color: #2c364c;
+  padding-left: 10px;
+  padding-top: 10px;
+}

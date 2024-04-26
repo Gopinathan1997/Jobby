@@ -1,0 +1,28 @@
+.nav-bar {
+  height: 9vh;
+  display: flex;
+  justify-content: space-around;
+  background-color: #2c364c;
+  align-items: center;
+}
+.logo {
+  height: 7vh;
+  padding: 3px;
+}
+
+* {
+  color: white;
+}
+.link {
+  font-style: none;
+  font-size: larger;
+  font-weight: 400;
+  margin-right: 10px;
+}
+ul {
+  list-style-type: none;
+}
+li {
+  padding-left: 0px;
+  padding-bottom: 10px;
+}
