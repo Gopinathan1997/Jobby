@@ -22,7 +22,7 @@ const Header = props => {
       </Link>
 
       <ul>
-        <li>
+        <li className="headerlist">
           <Link to="/" className="link">
             Home
           </Link>
@@ -32,10 +32,12 @@ const Header = props => {
             Jobs
           </Link>
         </li>
+        <li>
+          <button type="button" onClick={renderLogout}>
+            Logout
+          </button>
+        </li>
       </ul>
-      <button type="button" onClick={renderLogout}>
-        Logout
-      </button>
     </nav>
   )
 }
