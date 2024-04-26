@@ -9,7 +9,10 @@
   height: 7vh;
   padding: 3px;
 }
-
+.headerlist{
+  display:flex;
+  align-items:center;
+  justify-content:space-between;
 * {
   color: white;
 }
