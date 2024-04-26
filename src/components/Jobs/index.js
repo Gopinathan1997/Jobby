@@ -137,7 +137,7 @@ class Jobs extends Component {
   updateEmploymentType = event => {
     const {value, checked} = event.target
     if (checked) {
-      this.setState(prev => ({employmentType: [...prev.employmentType, value]}))
+      this.setState(prev => ({employmentType: [...prev.employmentType, value]}),this.renderJobsDetails,)
     } else {
       const {employmentType} = this.state
       const filteredList = employmentType.filter(each => each !== value)
@@ -245,8 +245,9 @@ class Jobs extends Component {
     const renderJobsList = jobsList.length > 0
 
     return renderJobsList ? (
-      <li className="each-jobs">
+      <ul className="each-jobs">
         {jobsList.map(eachJobs => (
+          <li>
           <Link key={eachJobs.id} to={`/jobs/${eachJobs.id}`}>
             <div className="title-container">
               <img
@@ -270,9 +271,9 @@ class Jobs extends Component {
             <hr />
             <h1>Description</h1>
             <p>{eachJobs.jobDescription}</p>
-          </Link>
+          </Link></li>
         ))}
-      </li>
+      </ul>
     ) : (
       <div className="no-jobs-view">
         <img
@@ -308,7 +309,7 @@ class Jobs extends Component {
       case apiConstantStatus.success:
         return this.renderJobsList()
       case apiConstantStatus.failure:
-        return this.renderFailureView
+        return this.renderFailureView()
       case apiConstantStatus.inProgress:
         return this.renderLodingView()
       default:
