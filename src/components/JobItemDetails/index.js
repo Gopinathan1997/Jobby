@@ -1,6 +1,5 @@
 import {Component} from 'react'
 import Cookies from 'js-cookie'
-import {Link} from 'react-router-dom'
 import Loader from 'react-loader-spinner'
 import Header from '../Header'
 import './index.css'
@@ -95,7 +94,9 @@ class JobItemDetails extends Component {
       <h1>Oops! Something Went Wrong</h1>
       <p>We cannot seem to find the page you are looking for</p>
 
-      <button onClick={this.renderJobsDetails}>Retry</button>
+      <button onClick={this.renderJobsDetails} type="button">
+        Retry
+      </button>
     </div>
   )
 
@@ -128,6 +129,7 @@ class JobItemDetails extends Component {
       companyWebsiteUrl,
       lifeDescription,
     } = jobDetail
+    console.log(jobDetail)
     return (
       <div className="jobdetail-bg">
         <div className="details-container">
@@ -160,7 +162,7 @@ class JobItemDetails extends Component {
           <ul className="skill">
             {skillsList.map(each => (
               <li key={each.name}>
-                <img src={each.skillImage} />
+                <img alt={each.name} src={each.skillImage} />
                 <p>{each.name}</p>
               </li>
             ))}
