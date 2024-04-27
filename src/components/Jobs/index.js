@@ -80,7 +80,7 @@ class Jobs extends Component {
     location: [],
     employmentType: [],
     searchInput: '',
-    updateList: false,
+
     apiStatus: apiConstantStatus.initial,
     jobsList: [],
   }
@@ -122,7 +122,7 @@ class Jobs extends Component {
   renderProfile = () => {
     const {profileData} = this.state
     return (
-      <div>
+      <div className="profile">
         <img
           className="profile-pic"
           alt="profile"
@@ -135,7 +135,9 @@ class Jobs extends Component {
   }
 
   renderProfileFailureView = () => (
-    <button onClick={this.getProfile}>Retry</button>
+    <button type="button" onClick={this.getProfile}>
+      Retry
+    </button>
   )
 
   renderProfileCondition = () => {
@@ -169,10 +171,7 @@ class Jobs extends Component {
       const {employmentType} = this.state
       const filteredList = employmentType.filter(each => each !== value)
 
-      this.setState(
-        prevState => ({employmentType: filteredList}),
-        this.renderJobsDetails,
-      )
+      this.setState({employmentType: filteredList}, this.renderJobsDetails)
     }
   }
 
@@ -188,17 +187,14 @@ class Jobs extends Component {
       const {location} = this.state
       const filteredList = location.filter(each => each !== value)
 
-      this.setState(
-        prevState => ({location: filteredList}),
-        this.renderJobsDetails,
-      )
+      this.setState({location: filteredList}, this.renderJobsDetails)
     }
   }
 
   renderTypeOfLocation = () => (
     <div>
       <h1>Types of Location</h1>
-      <ul>
+      <ul className="list-employment">
         {locationList.map(eachType => (
           <li onChange={this.updateLocation} key={eachType.locationId}>
             <input
@@ -216,7 +212,7 @@ class Jobs extends Component {
   renderTypeOfEmployment = () => (
     <div>
       <h1>Types of Employment</h1>
-      <ul>
+      <ul className="list-employment">
         {employmentTypesList.map(eachType => (
           <li
             onChange={this.updateEmploymentType}
@@ -241,7 +237,7 @@ class Jobs extends Component {
   renderSalaryRangesList = () => (
     <div>
       <h1>Salary Range</h1>
-      <ul>
+      <ul className="list-employment">
         {salaryRangesList.map(eachSalary => (
           <li
             className="column"
@@ -262,7 +258,7 @@ class Jobs extends Component {
   )
 
   renderJobsDetails = async () => {
-    this.setState({updateList: false, apiStatus: apiConstantStatus.inProgress})
+    this.setState({apiStatus: apiConstantStatus.inProgress})
     const {salary, employmentType, searchInput, location} = this.state
     console.log(location)
     const empInput = employmentType.join(',')
@@ -304,10 +300,6 @@ class Jobs extends Component {
     this.setState({searchInput: event.target.value})
   }
 
-  renderSetJobTrue = () => {
-    this.setState({updateList: true})
-  }
-
   renderJobsList = () => {
     const {jobsList} = this.state
     const renderJobsList = jobsList.length > 0
@@ -315,7 +307,7 @@ class Jobs extends Component {
     return renderJobsList ? (
       <ul className="each-jobs">
         {jobsList.map(eachJobs => (
-          <li key={eachJobs.id}>
+          <li key={eachJobs.id} className="each-job">
             <Link to={`/jobs/${eachJobs.id}`}>
               <div className="title-container">
                 <img
@@ -367,7 +359,9 @@ class Jobs extends Component {
       <h1>Oops! Something Went Wrong</h1>
       <p>We cannot seems to find the page you are looking for</p>
       <Link to="/jobs">
-        <button onClick={this.renderJobsDetails}>Retry</button>
+        <button type="button" onClick={this.renderJobsDetails}>
+          Retry
+        </button>
       </Link>
     </div>
   )
@@ -411,7 +405,7 @@ class Jobs extends Component {
             {this.renderTypeOfLocation()}
           </div>
           <div className="content-container">
-            <div className="input-container">
+            <div className="search-container">
               <input
                 onChange={this.updateSearchInput}
                 placeholder="Search"
@@ -419,8 +413,10 @@ class Jobs extends Component {
                 onKeyDown={this.onEnterSearchInput}
               />
               <button
+                aria-label="button"
                 onClick={this.renderJobsDetails}
                 type="button"
+                className="searchButton"
                 data-testid="searchButton"
               >
                 <BsSearch className="search-icon" />
